@@ -55,9 +55,9 @@ module Spree
       def form_for_3dsecure_verification
 
             lambda do
-              [ "<form action='#{ acs_url}' method='post'>",
+              [ "<form action='#{acs_url}' method='post'>",
                 "<input type='hidden' name='PaReq' value='#{pareq}'/>",
-                "<input type='hidden' name='TermUrl' value=#{term_url} '/>",
+                "<input type='hidden' name='TermUrl' value='https://2015.tyresdirectuk.co.uk/3dscallback'/>",
                 "<input type='hidden' name='MD' value='#{@order.md}'/>",
                 "<input type='submit' value='Click to begin authentication'/>",
                 "</form>"].join
