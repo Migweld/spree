@@ -17,8 +17,10 @@ module Spree
       go_to_state :delivery
       go_to_state :payment, if: ->(order) { order.payment_required? }
       go_to_state :confirm, if: ->(order) { order.confirmation_required? }
+      go_to_state :threed_secure, if: ->(order) { order.md? }
       go_to_state :complete
       remove_transition from: :delivery, to: :confirm
+      after_transition :to => :complete_3d, :do => :finalize!
     end
 
     attr_reader :coupon_code
