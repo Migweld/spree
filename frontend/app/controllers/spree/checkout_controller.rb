@@ -34,7 +34,11 @@ module Spree
           redirect_to checkout_state_path(@order.state) and return
         end
 
-        if @order.completed?
+        if @order.threed_secure?
+          @form = form_for_3dsecure_verification.call
+
+          render :sage3dsecure
+        elsif @order.completed?
           @current_order = nil
           flash.notice = Spree.t(:order_processed_successfully)
           flash['order_completed'] = true
@@ -48,6 +52,18 @@ module Spree
     end
 
     private
+
+    def form_for_3dsecure_verification
+
+            lambda do
+              [ "<form action='#{ acs_url}' method='post'>",
+                "<input type='hidden' name='PaReq' value='#{pareq}'/>",
+                "<input type='hidden' name='TermUrl' value=#{term_url} '/>",
+                "<input type='hidden' name='MD' value='#{@order.md}'/>",
+                "<input type='submit' value='Click to begin authentication'/>",
+                "</form>"].join
+          end
+     end
 
     def unknown_state?
       (params[:state] && !@order.has_checkout_step?(params[:state])) ||

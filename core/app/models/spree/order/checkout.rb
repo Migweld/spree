@@ -69,6 +69,16 @@ module Spree
                 transition to: :awaiting_return
               end
 
+              event :requires_3d_secure do
+                transition :to => :threed_secure
+              end
+              event :complete_3d_secure do
+                transition :to => :complete_3d
+              end
+              event :fail_3d_secure do
+                transition :to => :cancel
+              end
+
               if states[:payment]
                 before_transition to: :complete do |order|
                   if order.payment_required? && order.payments.valid.empty?
