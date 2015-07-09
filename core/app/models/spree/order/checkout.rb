@@ -51,6 +51,8 @@ module Spree
                   user_id:        order.user_id
                 )
                 order.save
+
+                after_transition :to => :complete_3d, :do => :finalize!
               end
 
               event :cancel do

@@ -20,7 +20,6 @@ module Spree
       go_to_state :threed_secure, if: ->(order) { order.md? }
       go_to_state :complete
       remove_transition from: :delivery, to: :confirm
-      after_transition :to => :complete_3d, :do => :finalize!
     end
 
     attr_reader :coupon_code
